@@ -1,9 +1,12 @@
 import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import { authSlice } from './features/auth/auth-slice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    [authSlice.reducerPath]: authSlice.reducer,
+  },
 });
 
 setupListeners(store.dispatch);

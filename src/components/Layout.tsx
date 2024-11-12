@@ -1,12 +1,25 @@
 import { AppShell } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import type { PropsWithChildren } from 'react';
+import { useEffect, type PropsWithChildren } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
+import type { RootState } from '../store';
 import { Header } from './Header';
 import { Navbar } from './Navbar';
 
 export function Layout({ children }: PropsWithChildren) {
   const [opened, { toggle }] = useDisclosure();
+  const navigate = useNavigate();
+  const authenticated = useSelector<RootState>(
+    (state) => state.auth.authenticated
+  );
+
+  useEffect(() => {
+    if (!authenticated) {
+      navigate('/login');
+    }
+  }, [authenticated]);
 
   return (
     <AppShell

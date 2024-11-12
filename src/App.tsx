@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Home } from './pages/Home';
+import { Login } from './pages/Login';
 import { store } from './store';
 
 const theme = createTheme({});
@@ -14,6 +15,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </MantineProvider>
