@@ -1,14 +1,9 @@
 import { BrowserWindow } from 'electron';
 
+import { SPOTIFY_CONFIG } from './config';
 import type { Tokens } from './types';
 
-const CLIENT_ID = import.meta.VITE_SPOTIFY_CLIENT_ID;
-const REDIRECT_URI = 'http://localhost:5173/callback';
-const SCOPES = [
-  'user-read-currently-playing',
-  'user-read-private',
-  'user-top-read',
-];
+const { CLIENT_ID, REDIRECT_URI, SCOPES } = SPOTIFY_CONFIG;
 
 export const authenticateSpotify = async (mainWindow: BrowserWindow) => {
   const authWindow = new BrowserWindow({

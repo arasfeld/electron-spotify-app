@@ -19,7 +19,12 @@ export function Layout({ children }: PropsWithChildren) {
     if (!authenticated) {
       navigate('/login');
     }
-  }, [authenticated]);
+  }, [authenticated, navigate]);
+
+  // Don't render anything if not authenticated
+  if (!authenticated) {
+    return null;
+  }
 
   return (
     <AppShell

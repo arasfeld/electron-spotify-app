@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
+import Store from 'electron-store';
 import path from 'path';
 import { authenticateSpotify } from './auth';
 
@@ -6,6 +7,8 @@ import { authenticateSpotify } from './auth';
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
+
+const store = new Store();
 
 const createWindow = () => {
   // Create the browser window.
@@ -21,7 +24,9 @@ const createWindow = () => {
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
   } else {
-    mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
+    mainWindow.loadFile(
+      path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
+    );
   }
 
   // Open the DevTools.
@@ -35,7 +40,17 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   const mainWindow = createWindow();
+
   ipcMain.handle('spotify-auth', () => authenticateSpotify(mainWindow));
+  ipcMain.on('electron-store-get', async (event, key) => {
+    event.returnValue = store.get(key);
+  });
+  ipcMain.on('electron-store-set', async (_event, key, val) => {
+    store.set(key, val);
+  });
+  ipcMain.on('electron-store-delete', async (_event, key) => {
+    store.delete(key);
+  });
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
