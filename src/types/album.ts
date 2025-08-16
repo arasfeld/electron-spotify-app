@@ -1,4 +1,4 @@
-import { Image } from './image';
+import type { Image } from './image';
 
 export interface Album {
   id: string;

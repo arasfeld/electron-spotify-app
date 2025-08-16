@@ -1,4 +1,12 @@
-import { NavLink, Stack, Title } from '@mantine/core';
+import {
+  NavLink,
+  Stack,
+  Title,
+  Skeleton,
+  Text,
+  ScrollArea,
+  Box,
+} from '@mantine/core';
 import {
   LayoutGrid,
   Library,
@@ -8,10 +16,32 @@ import {
   PlayCircle,
   Radio,
 } from 'lucide-react';
+import { useGetUserPlaylistsQuery } from '../features/spotify/spotify-api';
+import { useSelector } from 'react-redux';
+import type { SpotifyPlaylist } from '../types';
+import type { RootState } from '../store';
 
 export function Navbar() {
+  const auth = useSelector((state: RootState) => state.auth);
+  const {
+    data: playlistsResponse,
+    isLoading: playlistsLoading,
+    error: playlistsError,
+  } = useGetUserPlaylistsQuery(undefined, {
+    skip: !auth.authenticated || !auth.accessToken,
+  });
+
   return (
-    <Stack gap="lg">
+    <Stack
+      gap="lg"
+      h="100%"
+      w="100%"
+      style={{
+        overflowX: 'hidden',
+        maxWidth: '100%',
+        boxSizing: 'border-box',
+      }}
+    >
       <div>
         <Title order={4} px={12} py={4}>
           Discover
@@ -29,16 +59,62 @@ export function Navbar() {
         <NavLink label="Artists" leftSection={<MicVocal />} />
         <NavLink label="Albums" leftSection={<Library />} />
       </div>
-      <div>
-        <Title order={4} px={12} py={4}>
-          Playlists
+      <Box
+        style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 0,
+          overflow: 'hidden',
+          maxWidth: '100%',
+          boxSizing: 'border-box',
+        }}
+        w="100%"
+      >
+        <Title order={4} px={12} py={4} style={{ flexShrink: 0 }}>
+          Your Playlists
         </Title>
-        <NavLink label="Recently Added" leftSection={<ListMusic />} />
-        <NavLink label="Recently Played" leftSection={<ListMusic />} />
-        <NavLink label="Top Songs" leftSection={<ListMusic />} />
-        <NavLink label="Top Albums" leftSection={<ListMusic />} />
-        <NavLink label="Top Artists" leftSection={<ListMusic />} />
-      </div>
+        {playlistsLoading && (
+          <Box style={{ flexShrink: 0 }}>
+            <Skeleton height={32} mb={4} />
+            <Skeleton height={32} mb={4} />
+            <Skeleton height={32} mb={4} />
+          </Box>
+        )}
+        {playlistsError && (
+          <Box style={{ flexShrink: 0 }} p="xs">
+            <Text size="sm" c="red" mb={4}>
+              Failed to load playlists
+            </Text>
+            <Text size="xs" c="dimmed">
+              Error: {JSON.stringify(playlistsError)}
+            </Text>
+          </Box>
+        )}
+        {playlistsResponse?.items && (
+          <ScrollArea flex={1} type="hover" offsetScrollbars scrollbars="y">
+            {playlistsResponse.items.length === 0 ? (
+              <Text size="sm" c="dimmed" px={12}>
+                No playlists found
+              </Text>
+            ) : (
+              [...playlistsResponse.items]
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((playlist: SpotifyPlaylist) => (
+                  <NavLink
+                    description={`${playlist.tracks.total} track${
+                      playlist.tracks.total === 1 ? '' : 's'
+                    }`}
+                    key={playlist.id}
+                    label={playlist.name}
+                    leftSection={<ListMusic size={16} />}
+                    noWrap
+                  />
+                ))
+            )}
+          </ScrollArea>
+        )}
+      </Box>
     </Stack>
   );
 }

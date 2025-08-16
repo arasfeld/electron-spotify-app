@@ -26,6 +26,14 @@ export const authSlice = createSlice({
       state.expiresIn = expires_in;
       state.authenticated = true;
     },
+    updateAccessToken: (
+      state,
+      action: PayloadAction<{ access_token: string; expires_in: number }>
+    ) => {
+      const { access_token, expires_in } = action.payload;
+      state.accessToken = access_token;
+      state.expiresIn = expires_in;
+    },
     logout: (state) => {
       state.accessToken = null;
       state.refreshToken = null;
@@ -35,4 +43,4 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setCredentials, updateAccessToken, logout } = authSlice.actions;
