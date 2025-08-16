@@ -4,9 +4,10 @@ import { useEffect, type PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import type { RootState } from '../store';
 import { Header } from './Header';
 import { Navbar } from './Navbar';
+
+import type { RootState } from '../store';
 
 export function Layout({ children }: PropsWithChildren) {
   const [opened, { toggle }] = useDisclosure();

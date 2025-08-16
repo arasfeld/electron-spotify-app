@@ -1,11 +1,11 @@
 import {
-  NavLink,
-  Stack,
-  Title,
-  Skeleton,
-  Text,
-  ScrollArea,
   Box,
+  NavLink,
+  ScrollArea,
+  Skeleton,
+  Stack,
+  Text,
+  Title,
 } from '@mantine/core';
 import {
   LayoutGrid,
@@ -16,12 +16,16 @@ import {
   PlayCircle,
   Radio,
 } from 'lucide-react';
-import { useGetUserPlaylistsQuery } from '../features/spotify/spotify-api';
 import { useSelector } from 'react-redux';
-import type { SpotifyPlaylist } from '../types';
+import { useNavigate } from 'react-router-dom';
+
+import { useGetUserPlaylistsQuery } from '../features/spotify/spotify-api';
+
 import type { RootState } from '../store';
+import type { SpotifyPlaylist } from '../types';
 
 export function Navbar() {
+  const navigate = useNavigate();
   const auth = useSelector((state: RootState) => state.auth);
   const {
     data: playlistsResponse,
@@ -109,6 +113,7 @@ export function Navbar() {
                     label={playlist.name}
                     leftSection={<ListMusic size={16} />}
                     noWrap
+                    onClick={() => navigate(`/playlist/${playlist.id}`)}
                   />
                 ))
             )}

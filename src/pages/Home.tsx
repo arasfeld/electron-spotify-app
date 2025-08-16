@@ -1,4 +1,5 @@
 import { Text, Title } from '@mantine/core';
+
 import { Layout } from '../components/Layout';
 
 export function Home() {

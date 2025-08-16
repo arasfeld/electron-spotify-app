@@ -1,12 +1,16 @@
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
+
+import { ThemeProvider } from './components/ThemeProvider';
+
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
+import { PlaylistView } from './pages/PlaylistView';
 import { Settings } from './pages/Settings';
+
 import { persistor, store } from './store';
-import { ThemeProvider } from './components/ThemeProvider';
 
 // Simple loading component that doesn't use Mantine components
 const LoadingComponent = () => (
@@ -35,6 +39,7 @@ root.render(
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/playlist/:playlistId" element={<PlaylistView />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
