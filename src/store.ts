@@ -13,10 +13,12 @@ import {
 } from 'redux-persist';
 import { authSlice } from './features/auth/auth-slice';
 import { spotifyApi } from './features/spotify/spotify-api';
+import themeReducer from './features/theme/theme-slice';
 
 const reducer = combineReducers({
   [authSlice.reducerPath]: authSlice.reducer,
   [spotifyApi.reducerPath]: spotifyApi.reducer,
+  theme: themeReducer,
 });
 
 const persistConfig = {
@@ -37,7 +39,7 @@ const persistConfig = {
       });
     },
   },
-  whitelist: ['auth'],
+  whitelist: ['auth', 'theme'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);

@@ -12,22 +12,29 @@ import {
   Badge,
 } from '@mantine/core';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useGetCurrentUserProfileQuery } from '../features/spotify/spotify-api';
-import type { RootState } from '../store';
+import type { RootState, AppDispatch } from '../store';
 import { Layout } from '../components/Layout';
+import { setThemeMode } from '../features/theme/theme-slice';
 
 export function Settings() {
+  const dispatch = useDispatch<AppDispatch>();
   const auth = useSelector((state: RootState) => state.auth);
+  const themeMode = useSelector((state: RootState) => state.theme.mode);
   const { data: userProfile } = useGetCurrentUserProfileQuery(undefined, {
     skip: !auth.authenticated || !auth.accessToken,
   });
 
   // Settings state
   const [autoRefresh, setAutoRefresh] = useState(true);
-  const [theme, setTheme] = useState('system');
   const [notifications, setNotifications] = useState(true);
   const [quality, setQuality] = useState('high');
+
+  const handleThemeChange = (value: string | null) => {
+    const newTheme = (value as 'light' | 'dark' | 'system') || 'system';
+    dispatch(setThemeMode(newTheme));
+  };
 
   return (
     <Layout>
@@ -100,8 +107,8 @@ export function Settings() {
                   </Text>
                 </div>
                 <Select
-                  value={theme}
-                  onChange={(value) => setTheme(value || 'system')}
+                  value={themeMode}
+                  onChange={handleThemeChange}
                   data={[
                     { value: 'light', label: 'Light' },
                     { value: 'dark', label: 'Dark' },

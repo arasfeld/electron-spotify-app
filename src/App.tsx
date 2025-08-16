@@ -1,4 +1,3 @@
-import { createTheme, MantineProvider } from '@mantine/core';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
@@ -7,8 +6,7 @@ import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Settings } from './pages/Settings';
 import { persistor, store } from './store';
-
-const theme = createTheme({});
+import { ThemeProvider } from './components/ThemeProvider';
 
 // Simple loading component that doesn't use Mantine components
 const LoadingComponent = () => (
@@ -31,7 +29,7 @@ const root = createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <PersistGate loading={<LoadingComponent />} persistor={persistor}>
-      <MantineProvider theme={theme}>
+      <ThemeProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -40,7 +38,7 @@ root.render(
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
-      </MantineProvider>
+      </ThemeProvider>
     </PersistGate>
   </Provider>
 );
