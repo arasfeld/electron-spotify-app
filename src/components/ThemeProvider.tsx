@@ -2,6 +2,7 @@ import { createTheme, MantineProvider } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store';
+import { MANTINE_COLORS } from '../features/theme/theme-slice';
 
 interface ThemeProviderProps {
   children: React.ReactNode;
@@ -9,6 +10,9 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const themeMode = useSelector((state: RootState) => state.theme.mode);
+  const primaryColor = useSelector(
+    (state: RootState) => state.theme.primaryColor
+  );
   const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>('light');
 
   // Detect system theme preference
@@ -33,15 +37,21 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   // Determine the actual theme to use
   const actualTheme = themeMode === 'system' ? systemTheme : themeMode;
 
+  // Ensure we have a valid primary color
+  const validPrimaryColor = MANTINE_COLORS.includes(
+    primaryColor as (typeof MANTINE_COLORS)[number]
+  )
+    ? primaryColor
+    : 'green';
+
   // Create Mantine theme
   const theme = createTheme({
-    // You can add more theme customization here
-    primaryColor: 'green',
+    primaryColor: validPrimaryColor,
     fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
   });
 
   // Force a key change to ensure MantineProvider re-renders when theme changes
-  const providerKey = `theme-${actualTheme}`;
+  const providerKey = `theme-${actualTheme}-${validPrimaryColor}`;
 
   return (
     <MantineProvider

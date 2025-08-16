@@ -10,18 +10,26 @@ import {
   Group,
   Divider,
   Badge,
+  ActionIcon,
 } from '@mantine/core';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetCurrentUserProfileQuery } from '../features/spotify/spotify-api';
 import type { RootState, AppDispatch } from '../store';
 import { Layout } from '../components/Layout';
-import { setThemeMode } from '../features/theme/theme-slice';
+import {
+  setThemeMode,
+  setPrimaryColor,
+  MANTINE_COLORS,
+} from '../features/theme/theme-slice';
 
 export function Settings() {
   const dispatch = useDispatch<AppDispatch>();
   const auth = useSelector((state: RootState) => state.auth);
   const themeMode = useSelector((state: RootState) => state.theme.mode);
+  const primaryColor = useSelector(
+    (state: RootState) => state.theme.primaryColor
+  );
   const { data: userProfile } = useGetCurrentUserProfileQuery(undefined, {
     skip: !auth.authenticated || !auth.accessToken,
   });
@@ -34,6 +42,12 @@ export function Settings() {
   const handleThemeChange = (value: string | null) => {
     const newTheme = (value as 'light' | 'dark' | 'system') || 'system';
     dispatch(setThemeMode(newTheme));
+  };
+
+  const handlePrimaryColorChange = (color: string) => {
+    if (MANTINE_COLORS.includes(color as (typeof MANTINE_COLORS)[number])) {
+      dispatch(setPrimaryColor(color as (typeof MANTINE_COLORS)[number]));
+    }
   };
 
   return (
@@ -117,6 +131,28 @@ export function Settings() {
                   w={120}
                 />
               </Group>
+
+              <div>
+                <Text fw={500} mb="xs">
+                  Primary Color
+                </Text>
+                <Text size="sm" c="dimmed" mb="md">
+                  Choose your preferred primary color
+                </Text>
+                <Group gap="xs">
+                  {MANTINE_COLORS.map((color) => (
+                    <ActionIcon
+                      key={color}
+                      variant={primaryColor === color ? 'filled' : 'outline'}
+                      color={color}
+                      size="lg"
+                      radius="xl"
+                      onClick={() => handlePrimaryColorChange(color)}
+                      title={color.charAt(0).toUpperCase() + color.slice(1)}
+                    />
+                  ))}
+                </Group>
+              </div>
 
               <Group justify="space-between">
                 <div>
