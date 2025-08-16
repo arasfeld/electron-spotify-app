@@ -1,4 +1,4 @@
-import { Button, Card, Center, Title } from '@mantine/core';
+import { Button, Card, Center, Stack, Title } from '@mantine/core';
 import { ExternalLink } from 'lucide-react';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,22 +38,24 @@ export function Login() {
   }, []);
 
   return (
-    <Center>
+    <Center style={{ height: '100vh', width: '100vw' }}>
       <Card padding="xl">
-        <Logo size={120} />
-        <Title order={1}>
-          Millions of songs.
-          <br />
-          Free on Spotify.
-        </Title>
-        <Button
-          m={36}
-          onClick={handleLogin}
-          radius="xl"
-          rightSection={<ExternalLink size={18} />}
-        >
-          Log in
-        </Button>
+        <Stack align="center" gap="md" justify="center">
+          <Logo size={120} />
+          <Title order={1} mb="lg">
+            Millions of songs.
+            <br />
+            Free on Spotify.
+          </Title>
+          <Button
+            onClick={handleLogin}
+            radius="xl"
+            rightSection={<ExternalLink size={18} />}
+            size="lg"
+          >
+            Log in
+          </Button>
+        </Stack>
       </Card>
     </Center>
   );

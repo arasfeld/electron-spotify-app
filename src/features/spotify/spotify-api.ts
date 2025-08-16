@@ -83,8 +83,17 @@ export const spotifyApi = createApi({
     getRecentlyPlayed: builder.query<any[], void>({
       query: () => `me/player/recently-played`,
     }),
-    getPlaylistTracks: builder.query<any, string>({
+    getPlaylist: builder.query<any, string>({
       query: (playlistId) => `playlists/${playlistId}`,
+    }),
+    getPlaylistTracks: builder.query<
+      any,
+      { playlistId: string; limit?: number; offset?: number }
+    >({
+      query: ({ playlistId, limit = 100, offset = 0 }) => ({
+        url: `playlists/${playlistId}/tracks`,
+        params: { limit, offset },
+      }),
     }),
   }),
 });
@@ -97,5 +106,6 @@ export const {
   useSearchQuery,
   useGetCurrentlyPlayingQuery,
   useGetRecentlyPlayedQuery,
+  useGetPlaylistQuery,
   useGetPlaylistTracksQuery,
 } = spotifyApi;

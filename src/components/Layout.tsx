@@ -35,7 +35,6 @@ export function Layout({ children }: PropsWithChildren) {
         breakpoint: 'sm',
         collapsed: { mobile: !opened },
       }}
-      padding="md"
     >
       <AppShell.Header px={12}>
         <Header onToggle={toggle} />
@@ -45,7 +44,7 @@ export function Layout({ children }: PropsWithChildren) {
         <Navbar />
       </AppShell.Navbar>
 
-      <AppShell.Main style={{ overflow: 'auto' }}>{children}</AppShell.Main>
+      <AppShell.Main>{children}</AppShell.Main>
     </AppShell>
   );
 }
