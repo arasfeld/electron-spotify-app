@@ -56,7 +56,7 @@ export function UserMenu() {
           )}
           <Menu.Divider />
           <Menu.Item>Profile</Menu.Item>
-          <Menu.Item>Settings</Menu.Item>
+          <Menu.Item onClick={() => navigate('/settings')}>Settings</Menu.Item>
           <Menu.Divider />
           <Menu.Item
             leftSection={<LogOut size={16} />}

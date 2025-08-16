@@ -44,7 +44,7 @@ export function Layout({ children }: PropsWithChildren) {
         <Navbar />
       </AppShell.Navbar>
 
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main style={{ overflow: 'auto' }}>{children}</AppShell.Main>
     </AppShell>
   );
 }

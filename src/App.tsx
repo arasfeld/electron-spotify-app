@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
+import { Settings } from './pages/Settings';
 import { persistor, store } from './store';
 
 const theme = createTheme({});
@@ -35,6 +36,7 @@ root.render(
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
