@@ -1,16 +1,25 @@
 import { Avatar, Menu, Modal, Text, Button, Group } from '@mantine/core';
 import { LogOut, User } from 'lucide-react';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { logout } from '../features/auth/auth-slice';
-import type { AppDispatch } from '../store';
+import { useGetCurrentUserProfileQuery } from '../features/spotify/spotify-api';
+import type { AppDispatch, RootState } from '../store';
 
 export function UserMenu() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  const auth = useSelector((state: RootState) => state.auth);
+  const { data: userProfile } = useGetCurrentUserProfileQuery(undefined, {
+    skip: !auth.authenticated || !auth.accessToken,
+  });
+
+  // Get the first (largest) profile image, or fallback to null
+  const profileImageUrl = userProfile?.images?.[0]?.url || null;
 
   const handleLogout = () => {
     // Simple logout - just clear auth and redirect
@@ -27,12 +36,25 @@ export function UserMenu() {
     <>
       <Menu>
         <Menu.Target>
-          <Avatar radius="xl">
+          <Avatar radius="xl" src={profileImageUrl}>
             <User />
           </Avatar>
         </Menu.Target>
 
         <Menu.Dropdown>
+          {userProfile && (
+            <Menu.Item disabled>
+              <Text size="sm" fw={500}>
+                {userProfile.display_name}
+              </Text>
+              {userProfile.email && (
+                <Text size="xs" c="dimmed">
+                  {userProfile.email}
+                </Text>
+              )}
+            </Menu.Item>
+          )}
+          <Menu.Divider />
           <Menu.Item>Profile</Menu.Item>
           <Menu.Item>Settings</Menu.Item>
           <Menu.Divider />
