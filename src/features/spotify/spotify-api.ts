@@ -141,12 +141,33 @@ export const spotifyApi = createApi({
         params: { limit, offset, type: 'artist' },
       }),
     }),
+    getBrowseCategories: builder.query<any, void>({
+      query: () => 'browse/categories?limit=50',
+    }),
+    getFeaturedPlaylists: builder.query<
+      any,
+      { limit?: number; offset?: number }
+    >({
+      query: ({ limit = 20, offset = 0 }) => ({
+        url: 'browse/categories',
+        params: { limit, offset, country: 'US' },
+      }),
+    }),
+    getNewReleases: builder.query<any, { limit?: number; offset?: number }>({
+      query: ({ limit = 20, offset = 0 }) => ({
+        url: 'browse/new-releases',
+        params: { limit, offset, country: 'US' },
+      }),
+    }),
   }),
 });
 
 export const {
+  useGetBrowseCategoriesQuery,
   useGetCurrentUserProfileQuery,
   useGetCurrentlyPlayingQuery,
+  useGetFeaturedPlaylistsQuery,
+  useGetNewReleasesQuery,
   useGetPlaylistQuery,
   useGetPlaylistTracksQuery,
   useGetRecentlyPlayedQuery,

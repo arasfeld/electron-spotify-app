@@ -50,15 +50,21 @@ export function Navbar() {
         <Title order={4} px={12} py={4}>
           Discover
         </Title>
-        <NavLink label="Discover" leftSection={<PlayCircle />} />
-        <NavLink label="Browse" leftSection={<LayoutGrid />} />
-        <NavLink label="Radio" leftSection={<Radio />} />
+        <NavLink
+          label="Discover"
+          leftSection={<PlayCircle />}
+          onClick={() => navigate('/discover')}
+        />
+        <NavLink
+          label="Browse"
+          leftSection={<LayoutGrid />}
+          onClick={() => navigate('/browse')}
+        />
       </div>
       <div>
         <Title order={4} px={12} py={4}>
           Library
         </Title>
-        <NavLink label="Playlists" leftSection={<ListMusic />} />
         <NavLink
           label="Songs"
           leftSection={<Music2 />}

@@ -33,10 +33,14 @@ export const config = {
       import.meta.env.VITE_SPOTIFY_REDIRECT_URI ||
       'http://localhost:5173/callback',
     scopes: [
+      'playlist-modify-private',
+      'playlist-modify-public',
+      'playlist-read-collaborative',
       'playlist-read-private',
       'user-follow-read',
       'user-library-read',
       'user-read-currently-playing',
+      'user-read-email',
       'user-read-private',
       'user-read-recently-played',
       'user-top-read',

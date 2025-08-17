@@ -7,6 +7,8 @@ import { ThemeProvider } from './components/ThemeProvider';
 
 import { Albums } from './pages/Albums';
 import { Artists } from './pages/Artists';
+import { Browse } from './pages/Browse';
+import { Discover } from './pages/Discover';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { PlaylistView } from './pages/PlaylistView';
@@ -46,6 +48,8 @@ root.render(
             <Route path="/songs" element={<Songs />} />
             <Route path="/artists" element={<Artists />} />
             <Route path="/albums" element={<Albums />} />
+            <Route path="/browse" element={<Browse />} />
+            <Route path="/discover" element={<Discover />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
