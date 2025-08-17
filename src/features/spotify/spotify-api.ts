@@ -89,9 +89,32 @@ export const spotifyApi = createApi({
     getUserPlaylists: builder.query<PlaylistsResponse, void>({
       query: () => `me/playlists`,
     }),
-    search: builder.query<any, { query: string; type: string }>({
-      query: ({ query, type }) =>
-        `search?q=${encodeURIComponent(query)}&type=${type}`,
+    search: builder.query<
+      any,
+      {
+        query: string;
+        type?: string;
+        limit?: number;
+        offset?: number;
+        market?: string;
+      }
+    >({
+      query: ({
+        query,
+        type = 'track,artist,album,playlist',
+        limit = 20,
+        offset = 0,
+        market = 'US',
+      }) => ({
+        url: 'search',
+        params: {
+          q: query,
+          type,
+          limit,
+          offset,
+          market,
+        },
+      }),
     }),
     getCurrentlyPlaying: builder.query<any, void>({
       query: () => `me/player/currently-playing`,

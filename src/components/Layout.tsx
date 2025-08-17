@@ -37,7 +37,7 @@ export function Layout({ children }: PropsWithChildren) {
       }}
     >
       <AppShell.Header px={12}>
-        <Header onToggle={toggle} />
+        <Header onToggle={toggle} opened={opened} />
       </AppShell.Header>
 
       <AppShell.Navbar p="md">
