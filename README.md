@@ -46,8 +46,9 @@ yarn start
 ## Features
 
 - Spotify OAuth authentication
-- View user profile
-- Display top tracks and artists
+- View user profile and playlists
+- Display top tracks and artists with time period filtering
+- Recently played tracks
 - Modern UI with Mantine components
 - Responsive design
 

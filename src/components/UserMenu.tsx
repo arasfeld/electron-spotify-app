@@ -1,4 +1,4 @@
-import { Avatar, Menu, Modal, Text, Button, Group } from '@mantine/core';
+import { Avatar, Button, Group, Menu, Modal, Text } from '@mantine/core';
 import { LogOut, User } from 'lucide-react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

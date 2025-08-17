@@ -7,7 +7,14 @@ import type {
 
 import { refreshTokens } from '../../auth-client';
 import type { RootState } from '../../store';
-import type { Artist, PlaylistsResponse, Track, User } from '../../types';
+import type {
+  Artist,
+  PlaylistsResponse,
+  RecentlyPlayedItem,
+  SpotifyApiResponse,
+  Track,
+  User,
+} from '../../types';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://api.spotify.com/v1/',
@@ -62,11 +69,19 @@ export const spotifyApi = createApi({
     getCurrentUserProfile: builder.query<User, void>({
       query: () => `me`,
     }),
-    getTopArtists: builder.query<Artist[], void>({
-      query: () => `me/top/artists`,
+    getTopArtists: builder.query<
+      SpotifyApiResponse<Artist>,
+      { timeRange?: string }
+    >({
+      query: ({ timeRange = 'medium_term' }) =>
+        `me/top/artists?time_range=${timeRange}`,
     }),
-    getTopTracks: builder.query<Track[], void>({
-      query: () => `me/top/tracks`,
+    getTopTracks: builder.query<
+      SpotifyApiResponse<Track>,
+      { timeRange?: string }
+    >({
+      query: ({ timeRange = 'medium_term' }) =>
+        `me/top/tracks?time_range=${timeRange}`,
     }),
     // Note: Using 'any' for these endpoints is acceptable as they represent
     // dynamic Spotify API responses that can vary in structure
@@ -80,7 +95,10 @@ export const spotifyApi = createApi({
     getCurrentlyPlaying: builder.query<any, void>({
       query: () => `me/player/currently-playing`,
     }),
-    getRecentlyPlayed: builder.query<any[], void>({
+    getRecentlyPlayed: builder.query<
+      SpotifyApiResponse<RecentlyPlayedItem>,
+      void
+    >({
       query: () => `me/player/recently-played`,
     }),
     getPlaylist: builder.query<any, string>({
@@ -100,12 +118,12 @@ export const spotifyApi = createApi({
 
 export const {
   useGetCurrentUserProfileQuery,
+  useGetCurrentlyPlayingQuery,
+  useGetPlaylistQuery,
+  useGetPlaylistTracksQuery,
+  useGetRecentlyPlayedQuery,
   useGetTopArtistsQuery,
   useGetTopTracksQuery,
   useGetUserPlaylistsQuery,
   useSearchQuery,
-  useGetCurrentlyPlayingQuery,
-  useGetRecentlyPlayedQuery,
-  useGetPlaylistQuery,
-  useGetPlaylistTracksQuery,
 } = spotifyApi;

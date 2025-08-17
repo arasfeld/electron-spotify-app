@@ -1,27 +1,29 @@
 import {
-  Container,
-  Title,
-  Paper,
-  Stack,
-  Text,
-  Switch,
-  Select,
-  Button,
-  Group,
-  Divider,
-  Badge,
   ActionIcon,
+  Badge,
+  Button,
+  Container,
+  Divider,
+  Group,
+  Paper,
+  Select,
+  Stack,
+  Switch,
+  Text,
+  Title,
 } from '@mantine/core';
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useGetCurrentUserProfileQuery } from '../features/spotify/spotify-api';
-import type { RootState, AppDispatch } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { Layout } from '../components/Layout';
+import { useGetCurrentUserProfileQuery } from '../features/spotify/spotify-api';
 import {
-  setThemeMode,
-  setPrimaryColor,
   MANTINE_COLORS,
+  setPrimaryColor,
+  setThemeMode,
 } from '../features/theme/theme-slice';
+
+import type { AppDispatch, RootState } from '../store';
 
 export function Settings() {
   const dispatch = useDispatch<AppDispatch>();

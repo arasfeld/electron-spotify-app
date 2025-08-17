@@ -1,8 +1,9 @@
 import { createTheme, MantineProvider } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import type { RootState } from '../store';
+
 import { MANTINE_COLORS } from '../features/theme/theme-slice';
+import type { RootState } from '../store';
 
 interface ThemeProviderProps {
   children: React.ReactNode;

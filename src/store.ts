@@ -11,6 +11,7 @@ import {
   persistReducer,
   persistStore,
 } from 'redux-persist';
+
 import { authSlice } from './features/auth/auth-slice';
 import { spotifyApi } from './features/spotify/spotify-api';
 import themeReducer from './features/theme/theme-slice';
