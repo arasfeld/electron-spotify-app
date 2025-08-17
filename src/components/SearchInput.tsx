@@ -223,15 +223,7 @@ export function SearchInput() {
             flex: 1,
             minWidth: 150,
           }}
-          styles={{
-            input: {
-              backgroundColor: 'var(--mantine-color-dark-6)',
-              border: '1px solid var(--mantine-color-dark-4)',
-              '&:focus': {
-                borderColor: 'var(--mantine-color-primary-6)',
-              },
-            },
-          }}
+          variant="filled"
           value={value}
         />
         {value.trim() && (
