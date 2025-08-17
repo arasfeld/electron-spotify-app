@@ -25,20 +25,24 @@ validateRequiredEnvVars();
 export const config = {
   // Environment
   NODE_ENV: import.meta.env.NODE_ENV || 'development',
-  
+
   // Spotify API
   spotify: {
     clientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
-    redirectUri: import.meta.env.VITE_SPOTIFY_REDIRECT_URI || 'http://localhost:5173/callback',
+    redirectUri:
+      import.meta.env.VITE_SPOTIFY_REDIRECT_URI ||
+      'http://localhost:5173/callback',
     scopes: [
+      'playlist-read-private',
+      'user-follow-read',
+      'user-library-read',
       'user-read-currently-playing',
       'user-read-private',
-      'user-top-read',
       'user-read-recently-played',
-      'playlist-read-private',
+      'user-top-read',
     ],
   },
-  
+
   // App constants
   app: {
     name: 'Electron Spotify App',

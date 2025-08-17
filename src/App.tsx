@@ -5,10 +5,13 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { ThemeProvider } from './components/ThemeProvider';
 
+import { Albums } from './pages/Albums';
+import { Artists } from './pages/Artists';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { PlaylistView } from './pages/PlaylistView';
 import { Settings } from './pages/Settings';
+import { Songs } from './pages/Songs';
 
 import { persistor, store } from './store';
 
@@ -21,7 +24,7 @@ const LoadingComponent = () => (
       alignItems: 'center',
       justifyContent: 'center',
       fontSize: '18px',
-      color: '#666',
+      color: 'var(--mantine-color-gray-6)',
     }}
   >
     Loading...
@@ -40,6 +43,9 @@ root.render(
             <Route path="/login" element={<Login />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/playlist/:playlistId" element={<PlaylistView />} />
+            <Route path="/songs" element={<Songs />} />
+            <Route path="/artists" element={<Artists />} />
+            <Route path="/albums" element={<Albums />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>

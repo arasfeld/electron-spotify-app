@@ -59,9 +59,21 @@ export function Navbar() {
           Library
         </Title>
         <NavLink label="Playlists" leftSection={<ListMusic />} />
-        <NavLink label="Songs" leftSection={<Music2 />} />
-        <NavLink label="Artists" leftSection={<MicVocal />} />
-        <NavLink label="Albums" leftSection={<Library />} />
+        <NavLink
+          label="Songs"
+          leftSection={<Music2 />}
+          onClick={() => navigate('/songs')}
+        />
+        <NavLink
+          label="Artists"
+          leftSection={<MicVocal />}
+          onClick={() => navigate('/artists')}
+        />
+        <NavLink
+          label="Albums"
+          leftSection={<Library />}
+          onClick={() => navigate('/albums')}
+        />
       </div>
       <Box
         style={{

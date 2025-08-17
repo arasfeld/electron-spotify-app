@@ -117,15 +117,7 @@ export function PlaylistView() {
   const error = playlistError || tracksError;
   const playlist = playlistData;
 
-  // Debug: Log track count
-  useEffect(() => {
-    console.log(
-      'Current tracks:',
-      allTracks.length,
-      'Total tracks:',
-      playlist?.tracks?.total || 0
-    );
-  }, [allTracks.length, playlist?.tracks?.total]);
+
   // Check if we have more tracks to load
   const hasMoreTracks =
     playlist &&
@@ -150,29 +142,13 @@ export function PlaylistView() {
   };
 
   const handleLoadMore = useCallback(() => {
-    console.log('handleLoadMore called:', {
-      isLoadingMore,
-      hasMoreTracks,
-      currentTracks: allTracks.length,
-      totalTracks: playlist?.tracks?.total || 0,
-      lastResponseLength: tracksData?.items?.length || 0,
-      tracksPerPage,
-    });
-
     if (
       !isLoadingMore &&
       hasMoreTracks &&
       allTracks.length < (playlist?.tracks?.total || 0)
     ) {
-      console.log('Loading more tracks...');
       setIsLoadingMore(true);
       setCurrentPage((prev) => prev + 1);
-    } else {
-      console.log('Not loading more - conditions not met:', {
-        isLoadingMore,
-        hasMoreTracks,
-        tracksRemaining: (playlist?.tracks?.total || 0) - allTracks.length,
-      });
     }
   }, [
     isLoadingMore,
@@ -188,8 +164,6 @@ export function PlaylistView() {
     if (!tableContainerRef.current) return;
 
     const handleScroll = () => {
-      console.log('Scroll event fired');
-
       if (!tableContainerRef.current || isLoadingMore) {
         return;
       }
@@ -205,26 +179,19 @@ export function PlaylistView() {
       const { scrollTop, scrollHeight, clientHeight } =
         tableContainerRef.current;
 
-      console.log('Scroll values:', { scrollTop, scrollHeight, clientHeight });
-
       // Only trigger if we're near the bottom (within 200px)
       const threshold = 200;
       const isNearBottom = scrollTop + clientHeight >= scrollHeight - threshold;
 
-      console.log('Is near bottom:', isNearBottom);
-
       if (isNearBottom) {
-        console.log('Triggering load more - near bottom detected');
         handleLoadMore();
       }
     };
 
     const containerElement = tableContainerRef.current;
-    console.log('Adding scroll listener to container:', containerElement);
     containerElement.addEventListener('scroll', handleScroll);
 
     return () => {
-      console.log('Removing scroll listener');
       containerElement.removeEventListener('scroll', handleScroll);
     };
   }, [
@@ -239,7 +206,7 @@ export function PlaylistView() {
     <Layout>
       <Stack h="calc(100vh - 60px)" gap={0} style={{ overflow: 'hidden' }}>
         {/* Fixed Playlist Header Skeleton */}
-        <Paper p="lg" withBorder style={{ flexShrink: 0 }}>
+        <Paper p="lg" style={{ flexShrink: 0 }}>
           <Group gap="lg">
             <Skeleton height={200} width={200} radius="md" />
             <Stack gap="md" style={{ flex: 1 }}>
@@ -256,7 +223,6 @@ export function PlaylistView() {
 
         {/* Table Skeleton */}
         <Paper
-          withBorder
           style={{
             flex: 1,
             overflow: 'hidden',
@@ -334,7 +300,6 @@ export function PlaylistView() {
         {/* Fixed Playlist Header */}
         <Paper
           p="lg"
-          withBorder
           style={{
             flexShrink: 0,
           }}
@@ -381,7 +346,6 @@ export function PlaylistView() {
 
         {/* Scrollable Table Container */}
         <Paper
-          withBorder
           style={{
             flex: 1,
             overflow: 'hidden',
@@ -395,9 +359,6 @@ export function PlaylistView() {
               flex: 1,
               overflow: 'auto',
             }}
-            onScroll={(e) =>
-              console.log('Inline scroll event:', e.currentTarget.scrollTop)
-            }
           >
             <Table highlightOnHover stickyHeader>
               <Table.Thead>

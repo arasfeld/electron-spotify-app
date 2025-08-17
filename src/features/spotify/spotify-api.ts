@@ -8,6 +8,7 @@ import type {
 import { refreshTokens } from '../../auth-client';
 import type { RootState } from '../../store';
 import type {
+  Album,
   Artist,
   PlaylistsResponse,
   RecentlyPlayedItem,
@@ -113,6 +114,33 @@ export const spotifyApi = createApi({
         params: { limit, offset },
       }),
     }),
+    getSavedTracks: builder.query<
+      SpotifyApiResponse<{ added_at: string; track: Track }>,
+      { limit?: number; offset?: number }
+    >({
+      query: ({ limit = 50, offset = 0 }) => ({
+        url: 'me/tracks',
+        params: { limit, offset },
+      }),
+    }),
+    getSavedAlbums: builder.query<
+      SpotifyApiResponse<{ added_at: string; album: Album }>,
+      { limit?: number; offset?: number }
+    >({
+      query: ({ limit = 50, offset = 0 }) => ({
+        url: 'me/albums',
+        params: { limit, offset },
+      }),
+    }),
+    getSavedArtists: builder.query<
+      SpotifyApiResponse<Artist>,
+      { limit?: number; offset?: number }
+    >({
+      query: ({ limit = 50, offset = 0 }) => ({
+        url: 'me/following',
+        params: { limit, offset, type: 'artist' },
+      }),
+    }),
   }),
 });
 
@@ -122,6 +150,9 @@ export const {
   useGetPlaylistQuery,
   useGetPlaylistTracksQuery,
   useGetRecentlyPlayedQuery,
+  useGetSavedAlbumsQuery,
+  useGetSavedArtistsQuery,
+  useGetSavedTracksQuery,
   useGetTopArtistsQuery,
   useGetTopTracksQuery,
   useGetUserPlaylistsQuery,
