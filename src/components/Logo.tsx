@@ -8,7 +8,7 @@ export function Logo({ size, style, ...rest }: LogoProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      fill="var(--mantine-color-text)"
+      fill="var(--mantine-primary-color-filled)"
       style={{ height: rem(size), ...style }}
       viewBox="0 0 120 60"
       {...rest}
