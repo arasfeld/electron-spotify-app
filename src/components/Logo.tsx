@@ -7,6 +7,7 @@ interface LogoProps extends React.ComponentPropsWithoutRef<'svg'> {
 export function Logo({ size, style, ...rest }: LogoProps) {
   return (
     <svg
+      data-testid="logo"
       xmlns="http://www.w3.org/2000/svg"
       fill="var(--mantine-primary-color-filled)"
       style={{ height: rem(size), ...style }}

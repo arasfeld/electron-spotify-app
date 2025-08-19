@@ -79,7 +79,7 @@ export function UserMenu() {
         </Text>
 
         <Group justify="flex-end">
-          <Button variant="light" onClick={() => setShowLogoutModal(false)}>
+          <Button variant="default" onClick={() => setShowLogoutModal(false)}>
             Cancel
           </Button>
           <Button
